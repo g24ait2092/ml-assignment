@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.linear_model import LinearRegression
@@ -35,16 +34,45 @@ st.title("🎓 Student Performance Predictor")
 st.header("📊 Data Visualizations")
 
 fig, axes = plt.subplots(2, 3, figsize=(16, 10))
-sns.histplot(df['Performance Index'], kde=True, ax=axes[0, 0]).set_title("Performance Index Distribution")
-sns.scatterplot(data=df, x='Hours Studied', y='Performance Index', ax=axes[0, 1]).set_title(
-    "Hours Studied vs Performance")
-sns.scatterplot(data=df, x='Previous Scores', y='Performance Index', ax=axes[0, 2]).set_title(
-    "Previous Scores vs Performance")
-sns.boxplot(data=df, x='Extracurricular Activities', y='Performance Index', ax=axes[1, 0]).set_title(
-    "Extracurricular vs Performance")
-sns.scatterplot(data=df, x='Sleep Hours', y='Performance Index', ax=axes[1, 1]).set_title("Sleep Hours vs Performance")
-sns.scatterplot(data=df, x='Sample Question Papers Practiced', y='Performance Index', ax=axes[1, 2]).set_title(
-    "Sample Papers vs Performance")
+
+# 1. Histogram for Performance Index
+axes[0, 0].hist(df['Performance Index'], bins=30, color='skyblue', edgecolor='black')
+axes[0, 0].set_title("Performance Index Distribution")
+axes[0, 0].set_xlabel("Performance Index")
+axes[0, 0].set_ylabel("Frequency")
+
+# 2. Scatter: Hours Studied vs Performance Index
+axes[0, 1].scatter(df['Hours Studied'], df['Performance Index'], color='green', alpha=0.6)
+axes[0, 1].set_title("Hours Studied vs Performance")
+axes[0, 1].set_xlabel("Hours Studied")
+axes[0, 1].set_ylabel("Performance Index")
+
+# 3. Scatter: Previous Scores vs Performance Index
+axes[0, 2].scatter(df['Previous Scores'], df['Performance Index'], color='purple', alpha=0.6)
+axes[0, 2].set_title("Previous Scores vs Performance")
+axes[0, 2].set_xlabel("Previous Scores")
+axes[0, 2].set_ylabel("Performance Index")
+
+# 4. Box plot: Extracurricular Activities vs Performance Index
+extracurricular_groups = [df[df['Extracurricular Activities'] == val]['Performance Index'] for val in [0, 1]]
+axes[1, 0].boxplot(extracurricular_groups, labels=["No", "Yes"])
+axes[1, 0].set_title("Extracurricular vs Performance")
+axes[1, 0].set_xlabel("Extracurricular Activities")
+axes[1, 0].set_ylabel("Performance Index")
+
+# 5. Scatter: Sleep Hours vs Performance Index
+axes[1, 1].scatter(df['Sleep Hours'], df['Performance Index'], color='orange', alpha=0.6)
+axes[1, 1].set_title("Sleep Hours vs Performance")
+axes[1, 1].set_xlabel("Sleep Hours")
+axes[1, 1].set_ylabel("Performance Index")
+
+# 6. Scatter: Sample Papers vs Performance Index
+axes[1, 2].scatter(df['Sample Question Papers Practiced'], df['Performance Index'], color='red', alpha=0.6)
+axes[1, 2].set_title("Sample Papers vs Performance")
+axes[1, 2].set_xlabel("Sample Question Papers Practiced")
+axes[1, 2].set_ylabel("Performance Index")
+
+plt.tight_layout()
 st.pyplot(fig)
 
 # --- User Input Section ---
