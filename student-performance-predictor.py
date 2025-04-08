@@ -101,3 +101,4 @@ def main():
         for name, model in models.items():
             pred = model.predict(input_scaled)[0]
             st.write(f"**{name}**: {pred:.2f}")
+main()
